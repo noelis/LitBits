@@ -5,31 +5,7 @@ from flask_sqlalchemy import SQLAlchemy
 db = SQLAlchemy()
 
 
-class Book(db.Model):
-    """Public domain books to rate/collect. """
 
-    __tablename__ = "books"
-
-    book_id = db.Column(db.Integer,
-                        autoincrement=True,
-                        primary_key=True)
-    title = db.Column(db.String(256),
-                        nullable=False)
-    release_year = db.Column(db.Integer,
-                        nullable=True)
-    url = db.Column(db.String(256),
-                        nullable=False)
-    book_cover = db.Column(db.String(256),
-                        nullable=False)
-    mini_summary = db.Column(db.String(1024),
-                        nullable=False)
-
-    genres = db.relationship("Genre",
-                        secondary="book_genres",
-                        backref="books")
-    author = db.relationship("Author",
-                        secondary="authors",
-                        backref="books")
 
 
 class Genre(db.Model):
@@ -54,6 +30,32 @@ class Author(db.Model):
                         primary_key=True)
     name = db.Column(db.String(128), 
                         nullable=False)
+
+class Book(db.Model):
+    """Public domain books to rate/collect. """
+
+    __tablename__ = "books"
+
+    book_id = db.Column(db.Integer,
+                        autoincrement=True,
+                        primary_key=True)
+    title = db.Column(db.String(256),
+                        nullable=False)
+    release_year = db.Column(db.Integer,
+                        nullable=True)
+    url = db.Column(db.String(256),
+                        nullable=False)
+    book_cover = db.Column(db.String(256),
+                        nullable=False)
+    mini_summary = db.Column(db.String(1024),
+                        nullable=False)
+
+    genres = db.relationship("Genre",
+                        secondary="book_genres",
+                        backref="books")
+    author = db.relationship("Author",
+                        secondary="book_authors",
+                        backref="books")
 
 
 class User(db.Model):
@@ -159,4 +161,6 @@ if __name__ == '__main__':
 
     # Call connect_db function & pass in Flask app
     connect_db(app)
+    # db.create_all()
+
     print "DB connected."
