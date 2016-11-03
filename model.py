@@ -15,9 +15,13 @@ class Book(db.Model):
                         primary_key=True)
     title = db.Column(db.String(256),
                         nullable=False)
-    released_at = db.Column(db.Integer,
+    release_year = db.Column(db.Integer,
                         nullable=True)
     url = db.Column(db.String(256),
+                        nullable=False)
+    book_cover = db.Column(db.String(256),
+                        nullable=False)
+    mini_summary = db.Column(db.String(1024),
                         nullable=False)
 
     genres = db.relationship("Genre",
@@ -34,10 +38,10 @@ class Genre(db.Model):
     __tablename__ = "genres"
 
     genre_id = db.Column(db.Integer,
-                         autoincrement=True,
-                         primary_key=True)
+                        autoincrement=True,
+                        primary_key=True)
     genre = db.Column(db.String(64),
-                      nullable=False)
+                        nullable=False)
 
 
 class Author(db.Model):
@@ -46,10 +50,10 @@ class Author(db.Model):
     __tablename__ = "authors"
 
     author_id = db.Column(db.Integer,
-                          autoincrement=True,
-                          primary_key=True)
-    name = db.Column(db.String(128),
-                     nullable=False)
+                        autoincrement=True,
+                        primary_key=True)
+    name = db.Column(db.String(128), 
+                        nullable=False)
 
 
 class User(db.Model):
@@ -61,13 +65,13 @@ class User(db.Model):
                         autoincrement=True,
                         primary_key=True)
     name = db.Column(db.String(64),
-                     nullable=False)
-    user_name = db.Column(db.String(32),
-                          nullable=True)
+                        nullable=False)
+    goodreads_id = db.Column(db.Integer,
+                        nullable=True)
     email = db.Column(db.String(128),
-                      nullable=True)
+                        nullable=True)
     password = db.Column(db.String(64),
-                         nullable=True)
+                        nullable=True)
     # look up how to encrypt password before adding to DB
 
 
@@ -88,17 +92,17 @@ class UserBook(db.Model):
                         db.ForeignKey("books.book_id"),
                         nullable=False)
     book_read = db.Column(db.Boolean,
-                         default=False,
-                         nullable=False)
+                        default=False,
+                        nullable=False)
     rating = db.Column(db.Integer,
-                       nullable=True)
+                        nullable=True)
     updated_at = db.Column(db.DateTime,
-                           nullable=True)
+                        nullable=True)
 
     book = db.relationship("Book",
-                           backref="user_books")
+                        backref="user_books")
     user = db.relationship("User",
-                           backref="user")
+                        backref="user")
 
 
 class BookGenre(db.Model):
@@ -115,8 +119,8 @@ class BookGenre(db.Model):
                         db.ForeignKey("books.book_id"),
                         nullable=False)
     genre_id = db.Column(db.Integer,
-                         db.ForeignKey("genres.genre_id"),
-                         nullable=False)
+                        db.ForeignKey("genres.genre_id"),
+                        nullable=False)
 
 
 class BookAuthor(db.Model):
@@ -127,14 +131,14 @@ class BookAuthor(db.Model):
     __tablename__ = "book_authors"
 
     book_author_id = db.Column(db.Integer,
-                               autoincrement=True,
-                               primary_key=True)
+                        autoincrement=True,
+                        primary_key=True)
     book_id = db.Column(db.Integer,
                         db.ForeignKey("books.book_id"),
                         nullable=False)
     author_id = db.Column(db.Integer,
-                          db.ForeignKey("authors.author_id"),
-                          nullable=False)
+                        db.ForeignKey("authors.author_id"),
+                        nullable=False)
 
 
 # _________________________________________
