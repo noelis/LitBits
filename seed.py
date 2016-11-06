@@ -42,6 +42,8 @@ def get_book_metadata(book):
     summary = book['summary'].encode("utf-8")
     download_url = book['link'][1]['@href']
     book_cover = book['link'][4]['@href']
+
+
     return [title, release_year, summary, download_url, book_cover]
 
 
@@ -61,6 +63,57 @@ def add_book_metadata(title, release_year, summary, download_url, book_cover):
 
     return book_add
 
+
+def get_genre(book, book_add):
+    """ Gets genre info from book entry."""
+
+    if isinstance(book['category'], dict):
+        genre = book['category']['@label']
+        genre_added = add_genre(genre)
+        link_genre_book(genre_added, book_add)
+        
+    else:
+        # List of dictionaries
+        book_genres = book['category']
+
+        for genre in book_genres:
+            # Grabs genre from dict
+            book_genre = genre['@label']
+            genre_added = add_genre(book_genre)
+            link_genre_book(genre_added, book_add)
+
+
+def add_genre(genre_to_add):
+    """ Creates Genre object, check if it already exists in db & adds it."""
+
+    # Creates an instance of the Author class
+    add_genre = Genre(name=genre_to_add)
+
+    try:
+        # Check if genre exists & do not add them if so.
+        check_genre = Genre.query.filter(Genre.genre == genre_to_add).one()
+    except NoResultFound:
+
+        # If we get this error, then genre doesn't exist yet. Add/commit to db
+        db.session.add(add_genre)
+        db.session.commit()
+
+    check_genre = Genre.query.filter(Genre.genre == genre_to_add).one()
+    return check_genre
+
+
+def link_genre_book(genre_added, book_add):
+    """Creates a BookGenre object and adds it to db."""
+
+     # Creates an instance of the BookGenre class
+    book_genre_link = BookGenre(book_id=book_add.book_id, 
+                                    genre_id=genre_added.genre_id)
+
+    # Add/commit instance to BookGenre association table.
+    db.session.add(book_genre_link)
+    db.session.commit()
+
+
 def get_author(book, book_add):
     """ Gets author info from book."""
 
@@ -78,6 +131,7 @@ def get_author(book, book_add):
             author_name = author['name'].encode('utf-8') 
             author_added = add_author(author_name)
             link_author_book(author_added, book_add)
+
 
 def add_author(author_name):
     """ Creates Author object, check if it already exists in db & adds it."""
