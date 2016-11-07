@@ -20,6 +20,8 @@ def load_book_info():
             title, release_year, summary, download_url, book_cover = get_book_metadata(book)
             book_added = add_book_metadata(title, release_year, summary, download_url, book_cover)
             get_author(book, book_added)
+            get_genre(book, book_added)
+
 
 def book_api_request(api_url):
     """Make API request, get a response in text format, parse it using xmltodict."""
@@ -67,14 +69,19 @@ def add_book_metadata(title, release_year, summary, download_url, book_cover):
 def get_genre(book, book_add):
     """ Gets genre info from book entry."""
 
-    if isinstance(book['category'], dict):
+    #TODO: Refactor and add try/except instead of if not category in book.
+
+    if not 'category' in book:
+        # If there is no category key, continue without adding genre info.
+        pass
+
+    elif isinstance(book['category'], dict):
         genre = book['category']['@label']
         genre_added = add_genre(genre)
         link_genre_book(genre_added, book_add)
-        
+
     else:
-        # List of dictionaries
-        book_genres = book['category']
+        book_genres = book['category']         # List of dictionaries
 
         for genre in book_genres:
             # Grabs genre from dict
@@ -87,7 +94,7 @@ def add_genre(genre_to_add):
     """ Creates Genre object, check if it already exists in db & adds it."""
 
     # Creates an instance of the Author class
-    add_genre = Genre(name=genre_to_add)
+    add_genre = Genre(genre=genre_to_add)
 
     try:
         # Check if genre exists & do not add them if so.
@@ -121,7 +128,6 @@ def get_author(book, book_add):
         author_name = book['author']['name'].encode('utf-8')
         author_added = add_author(author_name)
         link_author_book(author_added, book_add)
-        
     else:
         # List of dictionaries
         book_authors = book['author'] 
