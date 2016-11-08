@@ -5,9 +5,6 @@ from flask_sqlalchemy import SQLAlchemy
 db = SQLAlchemy()
 
 
-
-
-
 class Genre(db.Model):
     """Genre metadata available for books."""
 
@@ -18,6 +15,11 @@ class Genre(db.Model):
                         primary_key=True)
     genre = db.Column(db.String(64),
                         nullable=False)
+
+    def __repr__(self):
+        """ Provide helpful representation of genres table when printed"""
+
+        return "<Genre genre_id=%s genre=%s>" % (self.genre_id, self.genre)
 
 
 class Author(db.Model):
@@ -30,6 +32,11 @@ class Author(db.Model):
                         primary_key=True)
     name = db.Column(db.String(128), 
                         nullable=False)
+
+    def __repr__(self):
+        """ Provide helpful representation of authors table when printed"""
+
+        return "<Author author_id=%s name=%s>" % (self.author_id, self.name)
 
 class Book(db.Model):
     """Public domain books to rate/collect. """
@@ -49,6 +56,8 @@ class Book(db.Model):
                         nullable=False)
     mini_summary = db.Column(db.String(1024),
                         nullable=False)
+    goodreads_id = db.Column(db.Integer,
+                        nullable=True)
 
     genres = db.relationship("Genre",
                         secondary="book_genres",
@@ -56,6 +65,11 @@ class Book(db.Model):
     author = db.relationship("Author",
                         secondary="book_authors",
                         backref="books")
+
+    def __repr__(self):
+        """ Provide helpful representation of books table when printed"""
+
+        return "<Book title=%s release_year=%i goodreads_id=%i url=%s>" % (self.title, self.release_year, self.goodreads_id, self.url)
 
 
 class User(db.Model):
@@ -75,6 +89,11 @@ class User(db.Model):
     password = db.Column(db.String(64),
                         nullable=True)
     # look up how to encrypt password before adding to DB
+
+    def __repr__(self):
+        """ Provide helpful representation of users table when printed"""
+
+        return "<User user_id=%s goodreads_id=%s name=%s>" % (self.user, self.goodreads_id, self.name)
 
 
 class UserBook(db.Model):

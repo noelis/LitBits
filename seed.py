@@ -1,6 +1,7 @@
 from sqlalchemy import func
 from server import app
 from datetime import datetime
+from os import environ
 
 from model import (connect_db, db, Book, Genre, Author, User, UserBook, BookGenre, BookAuthor)
 
@@ -23,18 +24,50 @@ def load_book_info():
             get_genre(book, book_added)
 
 
+def get_goodreads_book_id():
+    """Query db for book titles, search Goodreads and get their goodreads_id."""
+
+    all_book_titles = db.session.query(Book.title).all()
+
+    app_key = environ["KEY"]
+
+    for book_title in all_book_titles:
+
+        payload = {'key': app_key, 'q': book_title}
+
+        response = requests.get("https://www.goodreads.com/search/index.xml", params=payload)
+
+        search_result = xmltodict.parse(response.text)
+
+        top_match = search_result['GoodreadsResponse']['search']['results']['work'][0]
+
+        if top_match['ratings_count']['#text'] > 100000:
+            goodreads_id = top_match['best_book']['id']['#text']
+            add_goodreads_book_id(book_title, goodreads_id)
+
+
+def add_goodreads_book_id(book_title, add_goodreads_id):
+    """ Add goodreads book_id to books table."""
+
+    search_book = Book.query.filter(Book.title == book_title).first()
+    search_book.goodreads_id = add_goodreads_id
+
+    db.session.commit()
+
+
 def book_api_request(api_url):
     """Make API request, get a response in text format, parse it using xmltodict."""
 
     response = requests.get(api_url)
 
     # Turn response.content (string) into dictionary
-    metadata = xmltodict.parse(response.content)
+    metadata = xmltodict.parse(response.text)
 
     # List of 'entry' objects from 'feed'dictionary. Each 'entry' is a book (dict).
     books = metadata['feed']['entry']
 
     return books
+
 
 def get_book_metadata(book):
     """ Gets book metadata from API."""
@@ -44,7 +77,6 @@ def get_book_metadata(book):
     summary = book['summary'].encode("utf-8")
     download_url = book['link'][1]['@href']
     book_cover = book['link'][4]['@href']
-
 
     return [title, release_year, summary, download_url, book_cover]
 
@@ -179,4 +211,7 @@ if __name__ == '__main__':
 
     # Call function to load books to db.
     load_book_info()
+
+    #Call function to get/load goodreads_id to title db.
+    get_goodreads_book_id()
 
