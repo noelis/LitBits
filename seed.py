@@ -27,15 +27,18 @@ def load_book_info():
 def get_goodreads_book_id():
     """Query db for book titles, search Goodreads and get their goodreads_id."""
 
-    all_book_titles = db.session.query(Book).all()
+
+    all_books = db.session.query(Book).all()
 
     app_key = environ["KEY"]
 
-    for book_title in all_book_titles:
+    for book in all_books:
 
-        search_title_author = book_title.title + " " + book_title.author
+        print "Searching goodreads..."
 
-        payload = {'key': app_key, 'q': search_title_author}
+        # search_title_author = book.title + " " + book.author[0].name
+
+        payload = {'key': app_key, 'q': book.title}
 
         response = requests.get("https://www.goodreads.com/search/index.xml", params=payload)
 
@@ -45,7 +48,7 @@ def get_goodreads_book_id():
 
         if top_match['ratings_count']['#text'] > 1000:
             goodreads_id = top_match['best_book']['id']['#text']
-            add_goodreads_book_id(book_title, goodreads_id)
+            add_goodreads_book_id(book.title, goodreads_id)
 
 
 def add_goodreads_book_id(book_title, add_goodreads_id):
@@ -212,7 +215,7 @@ if __name__ == '__main__':
     db.create_all()
 
     # Call function to load books to db.
-    load_book_info()
+    # load_book_info()
 
     #Call function to get/load goodreads_id to title db.
     get_goodreads_book_id()
