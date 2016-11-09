@@ -20,23 +20,22 @@ def load_book_info():
         for book in books:
             title, release_year, summary, download_url, book_cover = get_book_metadata(book)
             book_added = add_book_metadata(title, release_year, summary, download_url, book_cover)
-            get_author(book, book_added)
-            get_genre(book, book_added)
+            if book_added != None:
+                get_author(book, book_added)
+                get_genre(book, book_added)
 
 
 def get_goodreads_book_id():
     """Query db for book titles, search Goodreads and get their goodreads_id."""
 
 
-    all_books = db.session.query(Book).all()
+    all_books = db.session.query(Book).order_by(Book.book_id).all()
 
     app_key = environ["KEY"]
 
     for book in all_books:
 
-        print "Searching goodreads..."
-
-        # search_title_author = book.title + " " + book.author[0].name
+        print "\n~~~~~~~~~~~~~~~~~~~~~~Searching goodreads for book id", book.book_id, ", ", book.title, 'author: ', book.author[0].name.encode('ascii', 'ignore')
 
         payload = {'key': app_key, 'q': book.title}
 
@@ -44,12 +43,30 @@ def get_goodreads_book_id():
 
         search_result = xmltodict.parse(response.text)
 
-        top_match = search_result['GoodreadsResponse']['search']['results']['work'][0]
+        all_matches = search_result['GoodreadsResponse']['search']['results']['work']
 
-        if top_match['ratings_count']['#text'] > 1000:
-            goodreads_id = top_match['best_book']['id']['#text']
-            add_goodreads_book_id(book.title, goodreads_id)
+        print 'found', len(all_matches), 'matches'
 
+        matchfound = False
+        for match in all_matches:
+            print '\tlooking at gooodreads author ', match['best_book']['author']['name'].encode('ascii', 'ignore')
+
+            goodreads_lastname = match['best_book']['author']['name'].encode('ascii', 'ignore').split()[-1]
+            database_lastname = book.author[0].name.encode('ascii', 'ignore').split()[-1]
+
+            if goodreads_lastname == database_lastname:
+                if match['ratings_count']['#text'] > 1000:
+                    goodreads_id = match['best_book']['id']['#text']
+                    add_goodreads_book_id(book.title, goodreads_id)
+                    print "found a suitable match, moving on"
+                    matchfound = True
+                else:
+                    print '************ ERROR!!!!! found a match but there are only', match['ratings_count']['#text'], 'ratings'
+                break
+
+        # if we got here and no match, :-(
+        if not matchfound:
+            print '***************** ERROR!!!!! no match found! boo hoo.'
 
 def add_goodreads_book_id(book_title, add_goodreads_id):
     """ Add goodreads book_id to books table."""
@@ -89,18 +106,20 @@ def get_book_metadata(book):
 def add_book_metadata(title, release_year, summary, download_url, book_cover):
     """Creates Book object and adds metadata to db."""
 
-    # Creates an instance of the Book class
-    book_add = Book(title=title, 
-                release_year=release_year,
-                url=download_url,
-                book_cover=book_cover,
-                mini_summary=summary)
+    if title.encode('utf-8') not in ("The Public Domain: Enclosing the Commons of the Mind", "Password Incorrect"):
 
-    # Add/commit book so it gets added to the table.
-    db.session.add(book_add)
-    db.session.commit()
+        # Creates an instance of the Book class
+        book_add = Book(title=title, 
+                    release_year=release_year,
+                    url=download_url,
+                    book_cover=book_cover,
+                    mini_summary=summary)
 
-    return book_add
+        # Add/commit book so it gets added to the table.
+        db.session.add(book_add)
+        db.session.commit()
+
+        return book_add
 
 
 def get_genre(book, book_add):

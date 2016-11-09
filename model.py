@@ -168,7 +168,7 @@ def connect_db(app):
 
     # Establishes the type of database it is, and database name:
     app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql:///books' 
-    app.config['SQLALCHEMY_ECHO'] = True            # To help with debugging 
+    # app.config['SQLALCHEMY_ECHO'] = True            # To help with debugging 
     db.app = app
     db.init_app(app)
 
