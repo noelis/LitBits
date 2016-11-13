@@ -97,7 +97,7 @@ class User(db.Model):
 
 
 class UserBook(db.Model):
-    """ Books that the user is planning on reading or has read/rated. """
+    """ Books that the user has read and rated. """
 
     # This is a middle table
 

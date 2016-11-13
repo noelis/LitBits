@@ -14,10 +14,21 @@ app.secret_key = "TBD"
 # Have Jinja raise an error if you use an undefined variable in the template.
 app.jinja_env.undefined = StrictUndefined
 
+@app.route('/')
+def home():
+    """ Homepage """
+
+    pass
+
+@app.route('/goodreads_oauth_callback')
+def goodreads_oauth_callback():
+    """ For goodreads Oauth."""
+
+    return render_template("goodreads_oauth.html")
 
 if __name__ == '__main__':
     # Configure http port used by app
-    app.run(port=5000)
+    app.run(host="0.0.0.0", port=5000)
 
     # Enable Flask DebugToolbarExtension
     app.debug = True
