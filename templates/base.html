@@ -1,0 +1,85 @@
+<!doctype html>
+<html>
+<head>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+  <title>LitBits</title>
+</head>
+<body>
+
+<!-- Nav bar bootstrap begins -->
+
+<nav class="navbar navbar-default">
+  <div class="container-fluid">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="#">LitBits</a>
+    </div>
+
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <ul class="nav navbar-nav">
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Browse<span class="caret"></span></a>
+          <ul class="dropdown-menu">
+            <li><a href="#">Fiction</a></li>
+            <li><a href="#">Children's Books</a></li>
+            <li><a href="#">Thrillers</a></li>
+            <li><a href="#">Science Fiction</a></li>
+          </ul>
+        </li>
+      </ul>
+      <!-- Search bar -->
+      <form class="navbar-form navbar-left" action="/search" method="GET" >
+        <div class="form-group">
+          <input type="text" class="search_bar" name="q" placeholder="Search">
+        </div>
+        <button type="submit" class="btn btn-default">Submit</button>
+      </form>
+      <!-- Jinja logic to only show specific links depending on user login state -->
+      {% if 'user_id' in session %}
+        <ul class="nav navbar-nav navbar-right">
+          <li><a href="/logout">Logout</a></li>
+        </ul>
+      {% else %}
+        <ul class="nav navbar-nav navbar-right">
+          <li><a href="#">Sign up</a></li>
+          <li><a href="#">Login</a></li>
+        </ul>
+      {% endif %}
+      <!-- end Jinja logic -->
+
+    </div><!-- /.navbar-collapse -->
+  </div><!-- /.container-fluid -->
+</nav>
+
+
+<!--   {% if 'user_id' in session %}
+    <a href="/logout">Logout</a>
+  {% else %}  
+    <a href="/register">Sign up</a>
+    <a href="/login">Login</a>
+  {% endif %} -->
+
+<!--   <hr> -->
+
+  <div class="flash_message">
+    {% for message in get_flashed_messages() %}
+    {{ message }}
+    {% endfor %}
+  </div>
+
+    {% block content %} 
+      put your content here 
+    {% endblock %}
+
+<script src="http://code.jquery.com/jquery.js"></script>
+<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+
+</body>
+</html>

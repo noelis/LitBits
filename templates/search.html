@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% block content %}
+
+    <h2>Search Results</h2>
+        <ul>
+            {% if search_results[0] is defined and search_results[0]|length > 0 %}
+                {% for item in search_results[0] %}
+                    <li><a href="/search/{{ item.title }}">{{ item.title }}</a></li>
+                {% endfor %}
+            {% elif search_results[1] is defined and search_results[1]|length > 0 %}
+                {% for item in search_results[1] %}
+                    <li><a href="/search/{{ item.name }}">{{ item.name }}</a></li>
+                {% endfor %}
+            {% elif search_results[2] is defined and search_results[2]|length > 0 %}
+                {% for item in search_results[2] %}
+                    <li><a href="/search/{{ item.genre }}">{{ item.genre }}</a></li>
+                {% endfor %}
+            {% endif %}
+        </ul>
+{% endblock %}

@@ -330,6 +330,18 @@ def add_rating(user_id, book_id, book_read, rating, updated_at):
     db.session.add(add_rating)
     db.session.commit()
 
+def fix_autoinc_value_user_id():
+    """Set value for the next user_id after seeding database"""
+
+    # Gets the max value in the user_id column from the users table
+    result = db.session.query(func.max(User.user_id)).one()
+    max_id = int(result[0])
+
+    # Sets the value for the next user_id to be max_id + 1
+    query = "SELECT setval('users_user_id_seq', :new_id)"
+    db.session.execute(query, {'new_id': max_id + 1})
+    db.session.commit()
+
 
 if __name__ == '__main__':
     # Call connect_db function & pass in Flask app
