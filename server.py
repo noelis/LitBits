@@ -38,17 +38,35 @@ def search():
         return redirect('/')
 
 
-@app.route('/register', methods=["GET"])
-def register_form():
-    """ Show the registration form."""
+# @app.route('/register', methods=["GET"])
+# def register_form():
+#     """ Show the registration form."""
 
-    return render_template("register_form.html")
+#     return render_template("register_form.html")
 
 @app.route('/register', methods=["POST"])
 def process_registration():
     """ Get user info from form and add them to db."""
 
-    pass
+    username = request.form.get("username")
+    email = request.form.get("email")
+    password = request.form.get("password")
+
+    check_user_in_db_query = User.query.filter(User.email == email)
+
+    try:
+
+        check_user_in_db_query.one()
+        flash("You've already signed up!") # Convert to JS messages
+        return redirect("/login")
+
+    except NoResultFound: 
+
+        new_user = User(username=username, email=user_name, password=password)  
+        db.session.add(new_user)
+        db.session.commit()
+        flash("You have been registered successfully!") # Convert to JS messages
+        return redirect("/")
 
 @app.route('/login', methods=["GET"])
 def login_page():
