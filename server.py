@@ -50,7 +50,7 @@ def search():
 def process_registration():
     """ Get user info from form and add them to db."""
 
-    username = request.form.get("username")
+    name = request.form.get("name")
     email = request.form.get("email")
     password = request.form.get("password")
 
@@ -64,7 +64,7 @@ def process_registration():
 
     except NoResultFound: 
 
-        new_user = User(username=username, email=user_name, password=password)  
+        new_user = User(name=name, email=email, password=password)  
         db.session.add(new_user)
         db.session.commit()
         flash("You have been registered successfully!") # Convert to JS messages
