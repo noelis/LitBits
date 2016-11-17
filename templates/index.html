@@ -1,8 +1,45 @@
 {% extends 'base.html' %}
 {% block content %}
 
-<h1>Booky books</h1>
-
-    <p>books books books...
+<div class="scroll">
+    <div class="jscroll-inner">
+    <!-- html code tag -->
+        <h3> Trending Books</h3>
+        <ul>
+            {% for book in top_books[:26] %}
+                <img src= {{ book.book_cover }} alt="Responsive image" class="img-thumbnail">
+                <br>
+                <a href="/book/{{ book.book_id }}">{{ book.title }}</a>
+                <br>
+            {% endfor %}
+        </ul>
+    </div>
+    <div class="jscroll-added">
+        {% for book in top_books[26:51] %}
+            <img src= {{ book.book_cover }} alt="Responsive image" class="img-thumbnail">
+            <br>
+            <a href="/book/{{ book.book_id }}">{{ book.title }}</a>
+            <br>
+        {% endfor %}
+    </div>
+    <div class="jscroll-added">
+        {% for book in top_books[51:76] %}
+            <img src= {{ book.book_cover }} alt="Responsive image" class="img-thumbnail">
+            <br>
+            <a href="/book/{{ book.book_id }}">{{ book.title }}</a>
+            <br>
+        {% endfor %}
+    </div>
+    <div class="jscroll-added">
+        {% for book in top_books[76:101] %}
+            <img src= {{ book.book_cover }} alt="Responsive image" class="img-thumbnail">
+            <br>
+            <a href="/book/{{ book.book_id }}">{{ book.title }}</a>
+            <br>
+        {% endfor %}
+    </div>
+        
+    
+</div>
 
 {% endblock %}

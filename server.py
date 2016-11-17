@@ -23,7 +23,9 @@ app.jinja_env.auto_reload = True
 def index():
     """ Home """
 
-    return render_template("index.html")
+    top_books = Book.query.order_by(Book.book_id).limit(100).all()
+
+    return render_template("index.html", top_books=top_books)
 
 @app.route('/search', methods=["GET"])
 def search():
@@ -166,4 +168,3 @@ if __name__ == '__main__':
     
     # Configure http port used by app
     app.run(host="0.0.0.0", port=5000)
-
