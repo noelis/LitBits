@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% block content %}
+
+   
+        <img src={{ book.book_cover }} alt="Responsive image" class="img-rectangular">
+            <h3> {{ book.title}} </h3>
+            <label> Author:</label>
+                {% for author in book.author %}
+                    <a href="/author/{{ author.author_id }}">{{ author.name}}</a>
+                {% endfor %}
+            <br>
+            <label> Released in: {{ book.release_year }}</label>
+            <br>
+            <p> {{ book.mini_summary }} </p>
+            <br>
+            <label>Genres</label>
+                {% for genre in book.genres %}
+                    <li><a href="/genre/{{ genre.genre_id }}">{{ genre.genre}}</a></li>
+                {% endfor %}
+            <br><br>
+
+{% endblock %}

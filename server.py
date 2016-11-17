@@ -102,9 +102,41 @@ def logout():
         flash("You have been logged out of your account. Goodbye! ") 
         return redirect('/')
 
-@app.route('/book_details/<int:book_id>')
+
+@app.route('/book/<int:book_id>')
 def book_details(book_id):
-    pass
+    # use book_id passed in from url to make sure it esxists in our db
+
+    try:
+        book = Book.query.filter(Book.book_id == book_id).one()
+        return render_template("book.html", book=book)
+    except NoResultFound:
+        flash("This book does not exist.")
+        return redirect("/")
+
+
+@app.route('/author/<int:author_id>')
+def author_details(author_id):
+    # use author_id passed in from url to make sure it esxists in our db
+
+    try:
+        name = Author.query.filter(Author.author_id == author_id).one()
+        return render_template("author.html", author=name)
+    except NoResultFound:
+        flash("This author does not exist.")
+        return redirect("/")
+
+
+@app.route('/genre/<int:genre_id>')
+def genre_details(genre_id):
+    # user book_id passed in from url to make sure it esxists in our db
+
+    try:
+        genre_type = Genre.query.filter(Genre.genre_id == genre_id).one()
+        return render_template("genre.html", genre_type=genre_type)
+    except NoResultFound:
+        flash("This genre does not exist.")
+        return redirect("/")
 
 
 @app.route('/review', methods=['GET'])
