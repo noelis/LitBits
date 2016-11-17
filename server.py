@@ -5,6 +5,8 @@ from model import (connect_db, db, Book, Genre, Author, User, UserBook, BookGenr
 from sqlalchemy.orm.exc import NoResultFound
 from search import clean_up_query, search_bar
 
+import bcrypt
+
 
 app = Flask(__name__)
 
@@ -40,12 +42,6 @@ def search():
         return redirect('/')
 
 
-# @app.route('/register', methods=["GET"])
-# def register_form():
-#     """ Show the registration form."""
-
-#     return render_template("register_form.html")
-
 @app.route('/register', methods=["POST"])
 def process_registration():
     """ Get user info from form and add them to db."""
@@ -64,27 +60,47 @@ def process_registration():
 
     except NoResultFound: 
 
-        new_user = User(name=name, email=email, password=password)  
+        new_user = User(name=name, email=email, password=bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt(14)))
         db.session.add(new_user)
         db.session.commit()
-        flash("You have been registered successfully!") # Convert to JS messages
+        flash("You have been registered successfully!")  # Convert to JS messages
         return redirect("/")
 
-@app.route('/login', methods=["GET"])
-def login_page():
-    """ Display login page. """
-
-    return render_template("login_form.html")
 
 @app.route('/login', methods=["POST"])
 def process_login():
-    """ Process login. """
-    pass
+    """ Process user's credentials for login. """
+
+    email = request.form.get("email")
+    password = request.form.get("password")
+
+    try:
+        # Check if user exists in db
+        verify_user = User.query.filter(User.email == email).one()
+
+        # If user does exist: make sure the (hashed) password entered, matches the (hashed) password in the db.
+        if bcrypt.hashpw(password.encode("UTF_8"), verify_user.password.encode("UTF_8")).decode() == verify_user.password:
+            # If password matches, add user to the Flask session
+            session['user_id'] = verify_user.user_id
+            flash("You are now logged in.")
+            return redirect("/")
+        else:
+            flash("Your password does not match. Try again.")
+            return redirect("/")
+        
+    # If user does not exist it will throw a NoResultFound error
+    except NoResultFound: 
+        flash("Your email does not exist. Try again.")
+        return redirect("/login")
+
 
 @app.route('/logout')
 def logout():
     """ Process logout request."""
-    pass
+    if 'user_id' in session:
+        del session['user_id']
+        flash("You have been logged out of your account. Goodbye! ") 
+        return redirect('/')
 
 @app.route('/book_details/<int:book_id>')
 def book_details(book_id):

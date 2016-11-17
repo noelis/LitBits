@@ -55,7 +55,7 @@
           <ul class="nav navbar-nav navbar-right">
             <li><a href="#" data-toggle="modal" data-target="#SignUpModal">
             Sign up</a></li>
-            <li><a href="#">Login</a></li>
+            <li><a href="#" data-toggle="modal" data-target="#LogInModal">Log In</a></li>
           </ul>
         {% endif %}
         <!-- end Jinja logic -->
@@ -64,52 +64,77 @@
     </div><!-- /.container-fluid -->
   </nav>
 
-  <!-- Modal Window -->
-
-  <div class="modal fade" id="SignUpModal" tabindex="-1" role="dialog" aria-labelledby="SignUpModalLabel">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="SignUpHeader">Sign up for an account</h4>
-      </div>
-      <div class="modal-body">
-        <form id="register" action="/register" method="POST">
-          <div class="form-group">
-            <input type="text" class="form-control" id="name" name="name" placeholder="Name">
-          </div>
-          <div class="form-group">
-           <input type="email" class="form-control" id="email" name="email" placeholder="Email">
-          </div>
-          <div class="form-group">
-            <input type="password" class="form-control" id="password" name="password" placeholder="Password">
-          </div>
-          <div class="form-group">
-            <input type="password" class="form-control" id="confirm_password" name="confirm_password" placeholder="Confirm Password">
-          </div>
-          <div class="modal-footer">
-            <a href="/login">Already have an account with us? Log in.</a><br>
-            <input type="submit" class="btn btn-default" value="Sign up"></input> 
-          </div>
-        </form>
-      </div>
-    </div>
-  </div>
-</div>
-
-
   <!-- Body of Page -->
-
 
   <div class="flash_message">
     {% for message in get_flashed_messages() %}
-    {{ message }}
+    <div class="alert alert-info" role="alert">{{ message }}</div>
     {% endfor %}
   </div>
 
     {% block content %} 
       put your content here 
     {% endblock %}
+
+  <!-- Modal Window for Sign up -->
+
+  <div class="modal fade" id="SignUpModal" tabindex="-1" role="dialog" aria-labelledby="SignUpModalLabel">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title" id="SignUpHeader">Sign up for an account</h4>
+        </div>
+        <div class="modal-body">
+          <form id="register" action="/register" method="POST">
+            <div class="form-group">
+              <input type="text" class="form-control" id="name" name="name" placeholder="Name">
+            </div>
+            <div class="form-group">
+             <input type="email" class="form-control" id="email" name="email" placeholder="Email">
+            </div>
+            <div class="form-group">
+              <input type="password" class="form-control" id="password" name="password" placeholder="Password">
+            </div>
+            <div class="form-group">
+              <input type="password" class="form-control" id="confirm_password" name="confirm_password" placeholder="Confirm Password">
+            </div>
+            <div class="modal-footer">
+              <a href="/login">Already have an account with us? Log in.</a><br>
+              <input type="submit" class="btn btn-default" value="Sign up"></input> 
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<!-- Modal Window for login page -->
+
+<div class="modal fade" id="LogInModal" tabindex="-1" role="dialog" aria-labelledby="LogInModalLabel">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title" id="LogInHeader">Log in to LitBits</h4>
+        </div>
+        <div class="modal-body">
+          <form id="login" action="/login" method="POST">
+            <div class="form-group">
+              <input type="text" class="form-control" id="login_email" name="email" placeholder="Email">
+            </div>
+            <div class="form-group">
+              <input type="password" class="form-control" id="login_password" name="password" placeholder="Password">
+            </div>
+            <div class="modal-footer">
+              <a href="/register">Don't have an account with us? Sign up.</a><br>
+              <input type="submit" class="btn btn-default" value="Log in"></input> 
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
 
 <script src="http://code.jquery.com/jquery.js"></script>
 <script src="static/jquery.validate.js"></script>
