@@ -164,7 +164,7 @@ if __name__ == '__main__':
     # Call function from model.py that connects database to Flask app 
     connect_db(app)
 
-    DebugToolbarExtension(app)
+    # DebugToolbarExtension(app)
     
     # Configure http port used by app
     app.run(host="0.0.0.0", port=5000)
