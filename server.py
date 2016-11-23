@@ -1,9 +1,9 @@
 from jinja2 import StrictUndefined
-from flask import (Flask, render_template, redirect, request, flash, session)
+from flask import (Flask, render_template, redirect, request, flash, session, jsonify)
 from flask_debugtoolbar import DebugToolbarExtension
 from model import (connect_db, db, Book, Genre, Author, User, UserBook, BookGenre, BookAuthor)
 from sqlalchemy.orm.exc import NoResultFound
-from search import clean_up_query, search_bar
+from search import clean_up_query, search_all, get_top_books, get_titles, get_authors, get_genres
 
 import bcrypt
 
@@ -19,13 +19,26 @@ app.jinja_env.undefined = StrictUndefined
 app.jinja_env.auto_reload = True
 
 
+@app.route("/search_suggestions.json")
+def get_search_suggestions():
+    """ Return search suggestions as JSON."""
+
+    # Calls functions that query each table and returns a list.
+    # Turns list into dictionary so we can turn it into json.
+    search_suggestions = {'autocomplete': get_genres(get_authors(get_titles()))}
+ 
+    return jsonify(search_suggestions)
+
+
+
 @app.route('/')
 def index():
     """ Home """
 
-    top_books = Book.query.order_by(Book.book_id).limit(100).all()
+    top_books = get_top_books()
 
     return render_template("index.html", top_books=top_books)
+
 
 @app.route('/search', methods=["GET"])
 def search():
@@ -37,7 +50,7 @@ def search():
         # cleans up the query and formats it
         clean_query = clean_up_query(q)
         # calls function that queries db.
-        search_results = search_bar(clean_query)
+        search_results = search_all(clean_query)
         return render_template("search.html", search_results=search_results)
     else:
         flash("Please enter a valid alphanumeric character.")

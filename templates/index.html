@@ -2,9 +2,9 @@
 {% block content %}
 
 <div class="container">
-  <h1>Use Bootstrap's carousel to show multiple items per slide.</h1>
+  <h1>Trending Books</h1>
   <div class="row">
-    <div class="col-md-12">
+    <div class="col-md-6">
       <div class="carousel slide multi-item-carousel" id="theCarousel">
         <div class="carousel-inner">
           <div class="item active">
@@ -17,19 +17,25 @@
             <div class="col-xs-4"><a href="/book/{{ top_books[2].book_id}}"><img src={{ top_books[2].book_cover }} class="img-responsive" style="width:150px;height:250px;"></a></div>
           </div>
           <div class="item">
-            <div class="col-xs-4"><a href="/book/{{ top_books[3].book_id}}"><img src={{ top_books[3].book_cover }} class="img-responsive"></a></div>
+            <div class="col-xs-4"><a href="/book/{{ top_books[3].book_id}}"><img src={{ top_books[3].book_cover }} class="img-responsive" style="width:150px;height:250px;"></a></div>
           </div>
           <div class="item">
-            <div class="col-xs-4"><a href="/book/{{ top_books[4].book_id}}"><img src={{ top_books[4].book_cover }} class="img-responsive"></a></div>
+            <div class="col-xs-4"><a href="/book/{{ top_books[4].book_id}}"><img src={{ top_books[4].book_cover }} class="img-responsive" style="width:150px;height:250px;"></a></div>
           </div>
           <div class="item">
-            <div class="col-xs-4"><a href="/book/{{ top_books[5].book_id}}"><img src={{ top_books[5].book_cover }} class="img-responsive"></a></div>
+            <div class="col-xs-4"><a href="/book/{{ top_books[5].book_id}}"><img src={{ top_books[5].book_cover }} class="img-responsive" style="width:150px;height:250px;"></a></div>
           </div>
-          <!-- add  more items here -->
-          <!-- Example item start:  -->
-          
           <div class="item">
-            <div class="col-xs-4"><a href="/book/{{ top_books[6].book_id}}"><img src={{ top_books[6].book_cover }} class="img-responsive"></a></div>
+            <div class="col-xs-4"><a href="/book/{{ top_books[6].book_id}}"><img src={{ top_books[6].book_cover }} class="img-responsive" style="width:150px;height:250px;"></a></div>
+          </div>
+          <div class="item">
+            <div class="col-xs-4"><a href="/book/{{ top_books[7].book_id}}"><img src={{ top_books[7].book_cover }} class="img-responsive" style="width:150px;height:250px;"></a></div>
+          </div>
+          <div class="item">
+            <div class="col-xs-4"><a href="/book/{{ top_books[8].book_id}}"><img src={{ top_books[8].book_cover }} class="img-responsive" style="width:150px;height:250px;"></a></div>
+          </div>
+          <div class="item">
+            <div class="col-xs-4"><a href="/book/{{ top_books[9].book_id}}"><img src={{ top_books[9].book_cover }} class="img-responsive" style="width:150px;height:250px;"></a></div>
           </div>
           
           <!--  Example item end -->
@@ -40,68 +46,5 @@
     </div>
   </div>
 </div>
-
-<!-- <div class="container">
-    <div class="row">
-        <div class="col-md-12">
-  <h1>Trending Books</h1>
-    <div id="theCarousel carousel-example-generic" class="carousel slide multi-item-carousel" data-ride="carousel"> -->
-        <!-- Wrapper for slides -->
-        <!-- <div class="carousel-inner" role="listbox">
-            <div class="item active">
-                <div class="col-xs-4">
-                <img src={{ top_books[0].book_cover }} class="img-responsive"></div>
-            </div>
-            <div class="item">
-                <div class="col-xs-4">
-                <img src={{ top_books[1].book_cover }} class="img-responsive"></div>
-            </div>
-            <div class="item">
-                <div class="col-xs-4">
-                <img src={{ top_books[2].book_cover }} class="img-responsive"></div>
-            </div>
-            <div class="item">
-                <div class="col-xs-4">
-                <img src={{ top_books[3].book_cover }} class="img-responsive"></div>
-            </div>
-            <div class="item">
-                <div class="col-xs-4">
-                <a href="/book/{{ top_books[4].book_id}}"><img src={{ top_books[4].book_cover }} class="img-responsive"></a>
-            </div>
-            </div>
-            <div class="item">
-                <div class="col-xs-4">
-                <a href="/book/{{ top_books[5].book_id}}"><img src={{ top_books[5].book_cover }} class="img-responsive"></a>
-            </div>
-            </div>
-            <div class="item">
-                <div class="col-xs-4">
-                <a href="/book/{{ top_books[6].book_id}}"><img src={{ top_books[6].book_cover }} class="img-responsive"></a>
-            </div>
-            </div>
-            <div class="item">
-                <div class="col-xs-4">
-                <a href="/book/{{ top_books[7].book_id}}"><img src={{ top_books[7].book_cover }} class="img-responsive"></a>
-            </div>
-            </div>
-            <div class="item">
-                <div class="col-xs-4">
-                <a href="/book/{{ top_books[8].book_id}}"><img src={{ top_books[8].book_cover }} class="img-responsive"></a>
-            </div>
-            </div>
-            <div class="item">
-                <div class="col-xs-4">
-                <a href="/book/{{ top_books[9].book_id}}"><img src={{ top_books[9].book_cover }} class="img-responsive"></a>
-                </div>
-            </div>
-
-        </div>
-        <a class="left carousel-control" href="#theCarousel" data-slide="prev"><i class="glyphicon glyphicon-chevron-left"></i></a>
-        <a class="right carousel-control" href="#theCarousel" data-slide="next"><i class="glyphicon glyphicon-chevron-right"></i></a>
-      </div>
-    </div>
-  </div>
-</div> -->
-
 
 {% endblock %}

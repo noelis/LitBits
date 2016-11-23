@@ -93,7 +93,7 @@ class User(db.Model):
     def __repr__(self):
         """ Provide helpful representation of users table when printed"""
 
-        return "<User user_id=%s goodreads_id=%s name=%s>" % (self.user, self.goodreads_id, self.name)
+        return "<User user_id=%s goodreads_id=%s name=%s>" % (self.user_id, self.goodreads_id, self.name)
 
 
 class UserBook(db.Model):
