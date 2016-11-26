@@ -74,10 +74,10 @@ def process_registration():
     try:
 
         check_user_in_db_query.one()
-        flash("You've already signed up!") # Convert to JS messages
+        flash("You've already signed up!")
         return redirect("/login")
 
-    except NoResultFound: 
+    except NoResultFound:
 
         new_user = User(name=name, email=email, password=bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt(14)))
         db.session.add(new_user)
