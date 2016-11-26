@@ -1,0 +1,18 @@
+.navbar {
+  background-color: #F2EFEF;
+}
+
+.navbar-default .navbar-brand {
+  color: #ffe500;
+  font-family: 'Lobster', cursive;
+  font-size:24px;
+}
+
+.navbar-form {
+  padding-right: 200px;
+}
+
+#book-title {
+  font-family: 'Lobster', cursive;
+  font-size:24px;
+}

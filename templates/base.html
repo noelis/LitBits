@@ -2,8 +2,10 @@
 <html>
 <head>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
-  <title>LitBits</title>
+  <link href="https://fonts.googleapis.com/css?family=Lobster|Raleway:200,300,500,700" rel="stylesheet">
   <link rel="stylesheet" type="text/css" href="static/style.css">
+  <title>LitBits</title>
+  
   <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 </head>
 <body>
@@ -12,32 +14,12 @@
 
   <nav class="navbar navbar-default">
     <div class="container-fluid">
+
       <!-- Brand and toggle get grouped for better mobile display -->
-      <div class="navbar-header">
-        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
-          <span class="sr-only">Toggle navigation</span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-        </button>
-        <a class="navbar-brand" href="/">LitBits</a>
+
+      <div class="navbar-header" id="litbits">
+        <a class="navbar-brand" href="/home">LitBits</a>
       </div>
-
-      <!-- Browse link dropdown -->
-
-      <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-        <ul class="nav navbar-nav">
-          <li class="dropdown">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Browse<span class="caret"></span></a>
-            <ul class="dropdown-menu">
-              <li><a href="/genre/1">Fiction</a></li>
-              <li><a href="/genre/4">Mystery & Detective</a></li>
-              <li><a href="/genre/2">Fantasy</a></li>
-              <li><a href="/genre/28">Fairy Tales, Folk Tales & Mythology</a></li>
-              <li><a href ="/genre/8">Non-Fiction</a></li>
-            </ul>
-          </li>
-        </ul>
 
         <!-- Search bar -->
 
@@ -67,13 +49,6 @@
   </nav>
 
   <!-- Body of Page -->
-
-<!--   <div class="container-fluid">
-    <div class="row">
-      <div class="col-md-6">.col-md-6</div>
-      <div class="col-md-6">.col-md-6</div>
-    </div>
-  </div> -->
 
   <div class="flash_message">
     {% for message in get_flashed_messages() %}
@@ -149,8 +124,8 @@
 <script src="static/jquery.validate.js"></script>
 <script src="static/sign_up_form.js"></script>
 <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
-<script src="static/carousel.js"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <script src="static/autocomplete.js"></script>
+
 </body>
 </html>

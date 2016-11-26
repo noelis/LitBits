@@ -26,26 +26,22 @@ def get_search_suggestions():
     # Calls functions that query each table and returns a list.
     # Turns list into dictionary so we can turn it into json.
     search_suggestions = {'autocomplete': get_genres(get_authors(get_titles()))}
- 
-    return jsonify(search_suggestions)
 
+    return jsonify(search_suggestions)
 
 
 @app.route('/')
 def index():
     """ Load splash page """
 
-    
-
     return render_template("splash.html")
+
 
 @app.route('/home')
 def load_home():
-    """ Home """
+    """ Loads the home page. """
 
-    top_books = get_top_books()
-
-    return render_template("index.html", top_books=top_books)
+    return render_template("index.html")
 
 
 @app.route('/search', methods=["GET"])
@@ -87,7 +83,7 @@ def process_registration():
         db.session.add(new_user)
         db.session.commit()
         flash("You have been registered successfully!")  # Convert to JS messages
-        return redirect("/")
+        return redirect("/home")
 
 
 @app.route('/login', methods=["POST"])
@@ -106,10 +102,10 @@ def process_login():
             # If password matches, add user to the Flask session
             session['user_id'] = verify_user.user_id
             flash("You are now logged in.")
-            return redirect("/")
+            return redirect("/home")
         else:
             flash("Your password does not match. Try again.")
-            return redirect("/")
+            return redirect("/home")
         
     # If user does not exist it will throw a NoResultFound error
     except NoResultFound: 
@@ -123,7 +119,7 @@ def logout():
     if 'user_id' in session:
         del session['user_id']
         flash("You have been logged out of your account. Goodbye! ") 
-        return redirect('/')
+        return redirect('/home')
 
 
 @app.route('/book/<int:book_id>')
@@ -135,7 +131,7 @@ def book_details(book_id):
         return render_template("book.html", book=book)
     except NoResultFound:
         flash("This book does not exist.")
-        return redirect("/")
+        return redirect("/home")
 
 
 @app.route('/author/<int:author_id>')
@@ -147,7 +143,7 @@ def author_details(author_id):
         return render_template("author.html", author=name)
     except NoResultFound:
         flash("This author does not exist.")
-        return redirect("/")
+        return redirect("/home")
 
 
 @app.route('/genre/<int:genre_id>')
@@ -159,7 +155,7 @@ def genre_details(genre_id):
         return render_template("genre.html", genre_type=genre_type)
     except NoResultFound:
         flash("This genre does not exist.")
-        return redirect("/")
+        return redirect("/home")
 
 
 @app.route('/review', methods=['GET'])

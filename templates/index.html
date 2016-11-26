@@ -2,49 +2,77 @@
 {% block content %}
 
 <div class="container">
-  <h1>Trending Books</h1>
   <div class="row">
-    <div class="col-md-6">
-      <div class="carousel slide multi-item-carousel" id="theCarousel">
-        <div class="carousel-inner">
-          <div class="item active">
-            <div class="col-xs-4"><a href="/book/{{ top_books[0].book_id}}"><img src={{ top_books[0].book_cover }} class="img-responsive" style="width:150px;height:250px;"></a></div>
-          </div>
-          <div class="item">
-            <div class="col-xs-4"><a href="/book/{{ top_books[1].book_id}}"><img src={{ top_books[1].book_cover }} class="img-responsive" style="width:150px;height:250px;"></a></div>
-          </div>
-          <div class="item">
-            <div class="col-xs-4"><a href="/book/{{ top_books[2].book_id}}"><img src={{ top_books[2].book_cover }} class="img-responsive" style="width:150px;height:250px;"></a></div>
-          </div>
-          <div class="item">
-            <div class="col-xs-4"><a href="/book/{{ top_books[3].book_id}}"><img src={{ top_books[3].book_cover }} class="img-responsive" style="width:150px;height:250px;"></a></div>
-          </div>
-          <div class="item">
-            <div class="col-xs-4"><a href="/book/{{ top_books[4].book_id}}"><img src={{ top_books[4].book_cover }} class="img-responsive" style="width:150px;height:250px;"></a></div>
-          </div>
-          <div class="item">
-            <div class="col-xs-4"><a href="/book/{{ top_books[5].book_id}}"><img src={{ top_books[5].book_cover }} class="img-responsive" style="width:150px;height:250px;"></a></div>
-          </div>
-          <div class="item">
-            <div class="col-xs-4"><a href="/book/{{ top_books[6].book_id}}"><img src={{ top_books[6].book_cover }} class="img-responsive" style="width:150px;height:250px;"></a></div>
-          </div>
-          <div class="item">
-            <div class="col-xs-4"><a href="/book/{{ top_books[7].book_id}}"><img src={{ top_books[7].book_cover }} class="img-responsive" style="width:150px;height:250px;"></a></div>
-          </div>
-          <div class="item">
-            <div class="col-xs-4"><a href="/book/{{ top_books[8].book_id}}"><img src={{ top_books[8].book_cover }} class="img-responsive" style="width:150px;height:250px;"></a></div>
-          </div>
-          <div class="item">
-            <div class="col-xs-4"><a href="/book/{{ top_books[9].book_id}}"><img src={{ top_books[9].book_cover }} class="img-responsive" style="width:150px;height:250px;"></a></div>
-          </div>
-          
-          <!--  Example item end -->
+    <div class="col-xs-6 col-md-3">
+        <div id class="thumbnails">
+          <a href="/genre/2"><img src="/static/fantasy.jpeg"></a>
         </div>
-        <a class="left carousel-control" href="#theCarousel" data-slide="prev"><i class="glyphicon glyphicon-chevron-left"></i></a>
-        <a class="right carousel-control" href="#theCarousel" data-slide="next"><i class="glyphicon glyphicon-chevron-right"></i></a>
-      </div>
     </div>
-  </div>
+    <div class="col-xs-6 col-md-3">
+        <div id class="thumbnails">
+          <a href="/genre/4"><img src="/static/mystery.jpeg"></a>
+        </div>
+    </div>
+    <div class="col-xs-6 col-md-3">
+        <div id class="thumbnails">
+          <a href="/genre/1"><img src="/static/Fiction.jpeg"></a>
+        </div>
+    </div>
+    <div class="col-xs-6 col-md-3">
+        <div id class="thumbnails">
+          <a href="/genre/3"><img src="/static/romance.jpeg"></a>
+        </div>
+    </div>
+    </div>  
+
+  <br>
+  <div class="row">
+    <div class="col-xs-6 col-md-3">
+        <div id class="thumbnails">
+          <a href="/genre/5"><img src="/static/short_stories.jpeg"></a>
+        </div>
+    </div>
+    <div class="col-xs-6 col-md-3">
+        <div id class="thumbnails">
+          <a href="/genre/18"><img src="/static/biography.jpeg"></a>
+        </div>
+    </div>
+    <div class="col-xs-6 col-md-3">
+        <div id class="thumbnails">
+          <a href="/genre/16"><img src="/static/action.jpeg"></a>
+        </div>
+    </div>
+    <div class="col-xs-6 col-md-3">
+        <div id class="thumbnails">
+          <a href="/genre/13"><img src="/static/horror.jpeg"></a>
+        </div>
+    </div>
+    </div>  
+    <br>
+
+    <div class="row">
+    <div class="col-xs-6 col-md-3">
+        <div id class="thumbnails">
+          <a href="/genre/20"><img src="/static/ya.jpeg"></a>
+        </div>
+    </div>
+    <div class="col-xs-6 col-md-3">
+        <div id class="thumbnails">
+          <a href="/genre/21"><img src="/static/war.jpeg"></a>
+        </div>
+    </div>
+    <div class="col-xs-6 col-md-3">
+        <div id class="thumbnails">
+          <a href="/genre/6"><img src="/static/drama.jpeg"></a>
+        </div>
+    </div>
+    <div class="col-xs-6 col-md-3">
+        <div id class="thumbnails">
+          <a href="/genre/28"><img src="/static/fairy.jpeg"></a>
+        </div>
+    </div>
+    </div> 
+    <br>
 </div>
 
 {% endblock %}

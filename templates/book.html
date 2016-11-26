@@ -1,10 +1,15 @@
 {% extends 'base.html' %}
 {% block content %}
 
-   
-        <img src={{ book.book_cover }} alt="Responsive image" class="img-rectangular">
-            <h3> {{ book.title}} </h3>
-            <label> Author:</label>
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-6">
+        
+        <img src={{ book.book_cover }} alt="Responsive image" class="img-rectangular">    
+    </div>
+    <div class="col-md-6">
+            <h3 id="book-title">{{ book.title}}</h3>
+            <p id="author">Author:</p>
                 {% for author in book.author %}
                     <a href="/author/{{ author.author_id }}">{{ author.name}}</a>
                 {% endfor %}
@@ -18,5 +23,11 @@
                     <li><a href="/genre/{{ genre.genre_id }}">{{ genre.genre}}</a></li>
                 {% endfor %}
             <br><br>
+    </div>
+
+  </div>
+</div>
+   
+        
 
 {% endblock %}
