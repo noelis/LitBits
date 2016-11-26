@@ -33,6 +33,14 @@ def get_search_suggestions():
 
 @app.route('/')
 def index():
+    """ Load splash page """
+
+    
+
+    return render_template("splash.html")
+
+@app.route('/home')
+def load_home():
     """ Home """
 
     top_books = get_top_books()

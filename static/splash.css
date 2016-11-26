@@ -1,0 +1,140 @@
+html, body {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+body {
+  background-image: url(books.jpg);
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center center;
+  color: #000;
+  line-height: 1.3;
+  -webkit-font-smoothing: antialiased;
+}
+
+
+#h1right{
+    color: #ffe500;
+    font-family: 'Lobster', cursive;
+    font-size:88px;
+    text-align: center;
+    padding-top: 120px;
+    padding-bottom: 25px;
+}
+
+/*#taglines{
+    color: #000000;
+    text-align: left;
+    font-family: 'Raleway', sans-serif;
+    font-weight: 700;
+    font-size: 20px
+}*/
+
+/*.left {*/
+/*    background-color: #ffd200;*/
+/*    opacity: .65;*/
+/*    background: rgba(255, 230, 20, 0.65);
+    height: 100%;
+    line-height: 1.3;
+    position: fixed;
+    width: 50%;
+    height: 100%;
+    top: 50px;
+    left: 0;*/
+/*}*/
+
+.right{
+/*    background-color: #000;
+    opacity: .65;*/
+    background: rgba(255, 255, 255, 0.28);
+    height: 100%;
+    line-height: 1.3;
+    right: 5%;
+    position: fixed;
+    width: 50%;
+    top: 10%;
+}
+
+p {
+/*    margin-left: 150px;
+    margin-right: 150px;*/
+    text-align: center;
+    font-family: 'Raleway', sans-serif;
+    font-weight: 100;
+    font-size: 18px;
+    color: #000;
+    padding-bottom: 30px;
+}
+
+.btn-group {
+  border: 3px solid #ffe500;
+  margin-left: 240px;
+  font-family: 'Raleway', sans-serif;
+  font-weight: 900;
+  font-size: 14px;
+  border-radius: 6px;
+  font-weight: 900;
+}
+
+.btn {
+  font-weight: 900;
+}
+
+a {
+    color: #ffffff;
+    text-decoration: none;
+    font-family: Raleway;
+    font-weight: 900;
+}
+
+/*input[type="text"], input[type="password"] {
+  width: 300px;
+  padding: 10px 0px;
+  background: transparent;
+  border: 0;
+  border-bottom: 2px dashed #ffe500;
+  border-radius: 0;
+  outline: none;
+  color: #ffd200;
+  font-size: 16px;
+  text-align: center;
+  font-family: 'Open Sans Condensed', sans-serif;
+  font-weight: 300;
+  font-style: italic;
+  margin: 25px;
+}*/
+/*
+input[type="submit"] {
+  background: #ffe500;
+  border: 0;
+  width: 350px;
+  height: 40px;
+  border-radius: 3px;
+  color: #ffd200;
+  font-size: 12px;
+  cursor: pointer;
+  transition: background 0.3s ease-in-out;
+}
+input[type="submit"]:hover {
+  background: #cccccc;
+  animation-name: shake;
+}
+
+
+.btn {
+  margin: 25px;
+  padding: 15px 30px;
+  border: 2px dashed #ffe500;
+  font-family: 'Pacifico', cursive;
+  font-size: 12px;
+  line-height: 1;
+  color: #ffd200;
+  text-decoration: none;
+}
+
+.btn:hover {
+    color: #000;
+    background-color: #ffe500;
+}*/

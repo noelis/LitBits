@@ -105,20 +105,7 @@ def find_cosine_similarity(train_data_matrix, type='user'):
     return similarity
 
 
-def predict(train_data_matrix, similarity, type='user'):
-    """ Prediction for user-based Collaborative Filtering. """
 
-    # When making a prediction for item-based CF you don’t need to correct for users average rating since query user itself is used to do predictions.
-
-    if type == 'user':
-        mean_user_rating = train_data_matrix.mean(axis=1)
-        #You use np.newaxis so that mean_user_rating has same format as ratings
-        ratings_diff = (train_data_matrix - mean_user_rating[:, numpy.newaxis]) 
-        prediction = mean_user_rating[:, numpy.newaxis] + similarity.dot(ratings_diff) / numpy.array([numpy.abs(similarity).sum(axis=1)]).T
-    elif type == 'item':
-        prediction = train_data_matrix.dot(similarity) / numpy.array([numpy.abs(similarity).sum(axis=1)]) 
-
-    return prediction
 
 
 def rmse(prediction, ground_truth):
