@@ -3,26 +3,41 @@
 
 <div class="container">
   <div class="row">
-    <div class="col-md-6">
+    <div class="col-md-4">
         
-        <img src={{ book.book_cover }} alt="Responsive image" class="img-rectangular">    
+        <img src={{ book.book_cover }} alt="Responsive image" class="img-rectangular">
+        <br></br>
+        <a href={{ book.url }}><button type="button" class="btn btn-default">DOWNLOAD</button></a>    
     </div>
-    <div class="col-md-6">
-            <h3 id="book-title">{{ book.title}}</h3>
-            <p id="author">Author:</p>
+    <div class="col-md-8">
+            <h2 id="book-title">{{ book.title}}</h2>
+
+            <dl class="dl-horizontal">
+                <dt><p id="author">Written by:</p></dt>
+              
+            
+
+                
                 {% for author in book.author %}
-                    <a href="/author/{{ author.author_id }}">{{ author.name}}</a>
+                    <dd><a href="/author/{{ author.author_id }}">{{ author.name}}</a></dd>
                 {% endfor %}
+                
             <br>
-            <label> Released in: {{ book.release_year }}</label>
+            <dt> Released in:</dt> 
+                <dd>{{ book.release_year }}</dd>
             <br>
-            <p> {{ book.mini_summary }} </p>
+            <dt> Summary:</dt>
+            <dd> {{ book.mini_summary }}</dd>
             <br>
-            <label>Genres</label>
+            <dt>Genres</dt>
+                
                 {% for genre in book.genres %}
-                    <li><a href="/genre/{{ genre.genre_id }}">{{ genre.genre}}</a></li>
+                    <dd><a href="/genre/{{ genre.genre_id }}">{{ genre.genre}}</a></dd>
                 {% endfor %}
+                
             <br><br>
+            </dl>
+
     </div>
 
   </div>

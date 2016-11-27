@@ -55,7 +55,7 @@ def search():
         clean_query = clean_up_query(q)
         # calls function that queries db.
         search_results = search_all(clean_query)
-        return render_template("search.html", search_results=search_results)
+        return render_template("search.html", search_results=search_results , q=q)
     else:
         flash("Please enter a valid alphanumeric character.")
         return redirect('/')

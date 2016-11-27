@@ -2,13 +2,18 @@
 {% block content %}
 
 <div class="container">
-    <h3> {{ author.name }} </h3>
-        <label> Books:</label>
-        <ul>
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th><h3>Books by {{ author.name }}</h3></th>
+            </tr>
+        </thead>
+        <tbody>
             {% for book in author.books %}
-                <a href="/book/{{ book.book_id }}">{{ book.title }}</a>
+                <tr><td><a href="/book/{{ book.book_id }}">{{ book.title }}</a></td></tr>
             {% endfor %}
-        </ul>
+        </tbody>
+    </table>
 </div>
 
 {% endblock %}

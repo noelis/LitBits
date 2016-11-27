@@ -1,14 +1,20 @@
 {% extends 'base.html' %}
 {% block content %}
 
+
 <div class="container">
-        <h2> {{ genre_type.genre }} </h2>
-        <label> Books:</label>
-        <ul>
-            {% for book in genre_type.books %}
-                <li><a href="/book/{{ book.book_id }}">{{ book.title }}</a></li>
-            {% endfor %}
-        </ul>
+    <h3>{{ genre_type.genre }} books</h3>
+    <div class="row">
+        {% for book in genre_type.books %}
+            <div class="col-md-2">
+                <a href="/book/{{ book.book_id }}" class="thumbnail"> <img src="{{ book.book_cover}}" height="180" class="img-thumbnail"></a>
+            </div>
+        {% endfor %}
+      </div>
+<!--     <div class="col-md-2">
+                <a href="/book/5" class="thumbnail"> <img src="http://covers.feedbooks.net/book/5543.jpg?size=large&t=1469749531" class="img-thumbnail"></a>
+    </div> -->
+</div>
 </div>
 
 {% endblock %}
