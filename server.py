@@ -118,13 +118,13 @@ def logout():
     """ Process logout request."""
     if 'user_id' in session:
         del session['user_id']
-        flash("You have been logged out of your account. Goodbye! ") 
+        flash("You have been logged out of your account. Goodbye! ")
         return redirect('/home')
 
 
-@app.route('/book/<int:book_id>')
+@app.route('/book/<int:book_id>', methods=["GET"])
 def book_details(book_id):
-    # use book_id passed in from url to make sure it esxists in our db
+    # use book_id passed in from url to make sure it exists in our db
 
     try:
         book = Book.query.filter(Book.book_id == book_id).one()

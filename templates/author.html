@@ -1,11 +1,14 @@
 {% extends 'base.html' %}
 {% block content %}
 
-        <h3> {{ author.name }} </h3>
+<div class="container">
+    <h3> {{ author.name }} </h3>
         <label> Books:</label>
         <ul>
             {% for book in author.books %}
                 <a href="/book/{{ book.book_id }}">{{ book.title }}</a>
             {% endfor %}
         </ul>
+</div>
+
 {% endblock %}

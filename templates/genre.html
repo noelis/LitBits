@@ -1,12 +1,14 @@
 {% extends 'base.html' %}
 {% block content %}
 
-        <h3> {{ genre_type.genre }} </h3>
+<div class="container">
+        <h2> {{ genre_type.genre }} </h2>
         <label> Books:</label>
         <ul>
             {% for book in genre_type.books %}
                 <li><a href="/book/{{ book.book_id }}">{{ book.title }}</a></li>
             {% endfor %}
         </ul>
-        
+</div>
+
 {% endblock %}
