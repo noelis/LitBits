@@ -1,6 +1,7 @@
 """ Define each table in a class and establish connection to database. """
 
 from flask_sqlalchemy import SQLAlchemy
+import correlation
 
 db = SQLAlchemy()
 
@@ -95,6 +96,50 @@ class User(db.Model):
 
         return "<User user_id=%s goodreads_id=%s name=%s>" % (self.user_id, self.goodreads_id, self.name)
 
+    def similarity(self, other):
+        """Return Pearson rating for user compared to other user."""
+
+        # The other in this function should be another User object.
+        # Accidentally backreferenced UserBooks table (aka ratings table) as user.
+        # Anything here that says User.user is actually saying User.rating
+
+        u_ratings = {}
+        paired_ratings = []
+
+        for rating in self.user:
+            u_ratings[rating.book_id] = rating
+
+        for other_rating in other.user:
+            u_rating = u_ratings.get(other_rating.book_id)
+            if u_rating:
+                paired_ratings.append((u_rating.rating, other_rating.rating))
+
+        if paired_ratings:
+            return correlation.pearson(paired_ratings)
+
+        else:
+            return 0.0
+
+    def predict_rating(self, book):
+        """Predict a user's rating of a book."""
+
+        # Find ratings for specific book.
+        other_ratings = book.user_books
+        # Find the User objects in other_ratings and create a list of User objs
+        other_users = [rating.user for rating in other_ratings]
+
+        # Find similarity between userA and userB. userA = self, userB = 'other_user'
+        similarities = [(self.similarity(other_user), other_user) for other_user in other_users]
+
+        similarities.sort(reverse=True)
+
+        #Get top user from list and unpack set
+        sim, best_match_user = similarities[0]
+
+        for book_rating in other_ratings:
+            if book_rating.user_id == best_match_user.user_id:
+                return book_rating.rating * sim
+
 
 class UserBook(db.Model):
     """ Books that the user has read and rated. """
@@ -124,6 +169,11 @@ class UserBook(db.Model):
                         backref="user_books")
     user = db.relationship("User",
                         backref="user")
+
+    def __repr__(self):
+        """ Provide helpful representation of ratings when printed"""
+
+        return "<Book book_id=%s user_id=%s rating=%s>" % (self.book_id, self.user_id, self.rating)
 
 
 class BookGenre(db.Model):

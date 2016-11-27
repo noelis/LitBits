@@ -6,22 +6,25 @@
     <div class="col-md-4">
         
         <img src={{ book.book_cover }} alt="Responsive image" class="img-rectangular">
-        <br></br>
-        <a href={{ book.url }}><button type="button" class="btn btn-default">DOWNLOAD</button></a>    
+        <br></br>   
     </div>
     <div class="col-md-8">
             <h2 id="book-title">{{ book.title}}</h2>
 
             <dl class="dl-horizontal">
+                {% if 'user_id' in session %}
+                    <dt> My rating:</dt>
+                    <dd> {{ user_rating.rating }}
+                        <!-- <form action="/rating" method="POST"><input type="hidden" name="book_id" value="{{book.book_id}}"><input type="number" name="avg_rating" id="book_rating" class="rating"/></form> --></dd><br>
+                    <dt> prediction:</dt>
+                    <dd> {{ prediction }}
+                {% endif %}
+                <dt> Average rating:</dt>
+                <dd>{{ avg_rating }}</dd><br>
                 <dt><p id="author">Written by:</p></dt>
-              
-            
-
-                
                 {% for author in book.author %}
                     <dd><a href="/author/{{ author.author_id }}">{{ author.name}}</a></dd>
                 {% endfor %}
-                
             <br>
             <dt> Released in:</dt> 
                 <dd>{{ book.release_year }}</dd>
@@ -34,10 +37,11 @@
                 {% for genre in book.genres %}
                     <dd><a href="/genre/{{ genre.genre_id }}">{{ genre.genre}}</a></dd>
                 {% endfor %}
-                
+                <br>
+                <dd><a href={{ book.url }}><button type="button" class="btn btn-default"><span class="glyphicon glyphicon-download-alt" aria-hidden="true"></span>  DOWNLOAD</button></a></dd>
             <br><br>
             </dl>
-
+            
     </div>
 
   </div>

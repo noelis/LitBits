@@ -3,9 +3,11 @@ from flask import (Flask, render_template, redirect, request, flash, session, js
 from flask_debugtoolbar import DebugToolbarExtension
 from model import (connect_db, db, Book, Genre, Author, User, UserBook, BookGenre, BookAuthor)
 from sqlalchemy.orm.exc import NoResultFound
-from search import clean_up_query, search_all, get_top_books, get_titles, get_authors, get_genres
+from search import clean_up_query, search_all, get_top_books, get_titles, get_authors, get_genres, get_ratings_avg
 
 import bcrypt
+
+# -*- coding: utf-8 -*-
 
 
 app = Flask(__name__)
@@ -126,9 +128,25 @@ def logout():
 def book_details(book_id):
     # use book_id passed in from url to make sure it exists in our db
 
+    if 'user_id' in session:
+        user_rating = UserBook.query.filter_by(book_id=book_id, user_id=session['user_id']).first()
+
+        if (not user_rating.rating):
+            user = User.query.get(session['user_id'])
+            if user:
+                prediction = user.predict_rating(book_id)
+    else:
+        user_rating = None
+
+    rating_scores = [r.rating for r in book.user_books]
+    prediction = None
+
     try:
         book = Book.query.filter(Book.book_id == book_id).one()
-        return render_template("book.html", book=book)
+        avg_rating = format(get_ratings_avg(book_id), '.2f')
+
+        return render_template("book.html", book=book, avg_rating=avg_rating, user_rating=user_rating, prediction=prediction)
+
     except NoResultFound:
         flash("This book does not exist.")
         return redirect("/home")
@@ -158,15 +176,33 @@ def genre_details(genre_id):
         return redirect("/home")
 
 
-@app.route('/review', methods=['GET'])
-def allow_rating():
-    """ Allow user to rate or update an existing rating a book."""
-    pass
+# @app.route('/review', methods=['GET'])
+# def allow_rating():
+#     """ Allow user to rate or update an existing rating a book."""
+#     pass
 
-@app.route('/review', methods=['POST'])
+@app.route('/rating', methods=['POST'])
 def process_rating():
     """ Process rating."""
-    pass
+    new_score = request.form.get("avg_rating")
+    user_id = session['user_id']
+    book_id = request.form.get("book_id")
+
+    print new_score, user_id, book_id
+
+    try:
+        rating = UserBook.query.filter(UserBook.book_id == book_id, UserBook.user_id == session['user_id']).one()
+        rating.score = new_score
+        db.session.commit()
+        flash("Your rating has been updated successfully")
+
+    except NoResultFound:
+        new_review = UserBook(user_id=int(user_id), book_id=int(book_id), score=int(new_score)) 
+        db.session.add(new_review)
+        db.session.commit()
+        flash("Your rating has been added successfully!")
+    
+    return redirect("/book/" + book_id)
 
 @app.route('/goodreads_oauth_callback')
 def goodreads_oauth_callback():

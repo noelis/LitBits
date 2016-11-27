@@ -91,6 +91,18 @@ def search_genres(search_query):
     return genre
 
 
+def get_ratings_avg(book_id):
+    """ Query db for book ratings and find average rating. """
+
+    all_ratings = UserBook.query.filter(UserBook.book_id == book_id).all()
+    sum_ratings = 0
+
+    for individual_rating in all_ratings:
+        sum_ratings += individual_rating.rating
+
+    return sum_ratings/float(len(all_ratings))
+
+
 if __name__ == '__main__':
     
     # Import Flask app from server.py file
