@@ -5,7 +5,7 @@ python:
 sudo: required
 install: "pip install -r requirements.txt"
 before_script:
-    - "createdb plants"
-    - "psql ratings < ratings.sql"
+    - "createdb books"
+    - "psql books < books.sql"
 # command to run tests
 script: python tests.py
