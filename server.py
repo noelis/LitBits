@@ -129,38 +129,39 @@ def logout():
 def book_details(book_id):
     # use book_id passed in from url to make sure it exists in our db
 
-    # check if user is logged in
-    if 'user_id' in session:
-        # if user is logged in, check if they have rated the book.
-
-        user_rating = UserBook.query.filter_by(book_id=book_id, user_id=session['user_id']).first()
-        book = Book.query.get(book_id)
-        user = User.query.get(session['user_id'])
-        prediction = None
-
-        all_books = get_book_ids()
-        recommended_books = [] # list of book ids
-
-        for book_id in all_books:
-            book = Book.query.get(book_id)
-            prediction = user.predict_rating(book)
-            if prediction > 3.0:
-                recommended_books.append(book)
-
-        shuffled_recs = sample(recommended_books, len(recommended_books))
-
-        # If user has not rated the book, make a prediction. DO I NEED THIS STILL?!
-        if user_rating is None:
-            prediction = format(user.predict_rating(book), '.2f')
-            shuffled_recs = None
-    else:
-        user_rating = None
-        prediction = None
-        shuffled_recs = None
-
     try:
         book = Book.query.filter(Book.book_id == book_id).one()
         avg_rating = format(get_ratings_avg(book_id), '.2f')
+
+        # check if user is logged in
+        if 'user_id' in session:
+            # if user is logged in, check if they have rated the book.
+
+            user_rating = UserBook.query.filter_by(book_id=book_id, user_id=session['user_id']).first()
+            # book = Book.query.get(book_id)
+            user = User.query.get(session['user_id'])
+            prediction = None
+
+            all_books = get_book_ids()
+            recommended_books = [] # list of book ids
+
+            for book_id in all_books:
+                each_book = Book.query.get(book_id)
+                prediction = user.predict_rating(each_book)
+                if prediction > 3.0:
+                    recommended_books.append(each_book)
+
+            shuffled_recs = sample(recommended_books, len(recommended_books))
+
+            # If user has not rated the book, make a prediction. DO I NEED THIS STILL?!
+            if user_rating is None:
+                prediction = None
+                # prediction = format(user.predict_rating(book), '.2f')
+                shuffled_recs = None
+        else:
+            user_rating = None
+            prediction = None
+            shuffled_recs = None
 
         return render_template("book.html", book=book, avg_rating=avg_rating, user_rating=user_rating, prediction=prediction, shuffled_recs=shuffled_recs)
 
