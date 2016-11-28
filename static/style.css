@@ -25,3 +25,7 @@ body {
 #download_button {
   margin-left: 65px;
 }
+
+.container {
+  padding-left: 50px;
+}
