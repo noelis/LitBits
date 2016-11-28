@@ -21,3 +21,7 @@
 body {
   font-family: 'Raleway', sans-serif;
 }
+
+#download_button {
+  margin-left: 65px;
+}

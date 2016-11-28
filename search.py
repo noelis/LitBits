@@ -100,11 +100,32 @@ def get_ratings_avg(book_id):
     for individual_rating in all_ratings:
         sum_ratings += individual_rating.rating
 
-    return sum_ratings/float(len(all_ratings))
+    # print "SUM", sum_ratings
+    # print "ALL", all_ratings
+
+    if sum_ratings > 0 and len(all_ratings) > 0:
+        avg_rating = sum_ratings/float(len(all_ratings))
+        return avg_rating
+    else:
+        return 0.000
+
+
+def get_book_ids():
+    """Query the books table to get all book_ids in db."""
+    all_books = []
+
+    # Querying by table returns list of objects.
+    books = Book.query.all()
+
+    for book in books:
+        # book.title returns title in unicode
+        all_books.append(book.book_id)
+
+    return all_books
 
 
 if __name__ == '__main__':
-    
+
     # Import Flask app from server.py file
     from server import app
 

@@ -3,24 +3,69 @@
 
 <div class="container">
   <div class="row">
-    <div class="col-md-4">
+    <div class="col-md-4 center-block">
         
-        <img src={{ book.book_cover }} alt="Responsive image" class="img-rectangular">
-        <br></br>   
+        <img src={{ book.book_cover }} alt="Responsive image" class="img-rectangular" id="book_cover">
+        <br></br>
+        <a href={{ book.url }}><button type="button" class="btn btn-default" id="download_button"><span class="glyphicon glyphicon-download-alt" aria-hidden="true"></span>  DOWNLOAD</button></a>
     </div>
     <div class="col-md-8">
-            <h2 id="book-title">{{ book.title}}</h2>
-
-            <dl class="dl-horizontal">
+        <h2 id="book-title">{{ book.title}}</h2>
+        <dl class="dl-horizontal">
+            <dt> Average rating:</dt>
+            <dd>{{ avg_rating }} &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;
                 {% if 'user_id' in session %}
-                    <dt> My rating:</dt>
-                    <dd> {{ user_rating.rating }}
-                        <!-- <form action="/rating" method="POST"><input type="hidden" name="book_id" value="{{book.book_id}}"><input type="number" name="avg_rating" id="book_rating" class="rating"/></form> --></dd><br>
-                    <dt> prediction:</dt>
-                    <dd> {{ prediction }}
+                    {% if user_rating %}
+                    <button type="button" class="btn btn-default" data-toggle="modal" data-target="#myModal">Update rating</button>
+                    {% elif not user_rating %}
+                    <button type="button" class="btn btn-default" data-toggle="modal" data-target="#myModal">Add rating</button>
+                    {% endif %}
                 {% endif %}
-                <dt> Average rating:</dt>
-                <dd>{{ avg_rating }}</dd><br>
+                <!-- Modal -->
+                <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                <h4 class="modal-title" id="myModalLabel">{{ book.title}} </h4>
+                            </div>
+                            <div class="modal-body">
+                            <h5> Rate:</h5>
+                            <form action="/rating" method="POST">
+                                <label class="radio-inline">
+                                    <input type="radio" name="rating" id="inlineRadio1" value="1"> 1
+                                </label>
+                                <label class="radio-inline">
+                                    <input type="radio" name="rating" id="inlineRadio2" value="2"> 2
+                                </label>
+                                <label class="radio-inline">
+                                    <input type="radio" name="rating" id="inlineRadio3" value="3"> 3
+                                </label>
+                                <label class="radio-inline">
+                                    <input type="radio" name="rating" id="inlineRadio3" value="4"> 4
+                                </label>
+                                <label class="radio-inline">
+                                    <input type="radio" name="rating" id="inlineRadio3" value="5"> 5
+                                </label>
+                        
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                                <input type="hidden" name="book_id" value="{{ book.book_id }}">
+                                <input type="submit" class="btn btn-primary" value="Save rating"</input>
+                            </form>
+                            </div>
+                        </div>
+                    </div>
+                </div></dd><br>
+<!--                 {% if 'user_id' in session %}
+                    {% if user_rating %}
+                    <dt> My rating:</dt>
+                    <dd> {{ user_rating.rating }}</dd><br>
+                    {% elif not user_rating %}
+                    <dd></dd>
+                    {% endif %}
+                {% endif %} -->
                 <dt><p id="author">Written by:</p></dt>
                 {% for author in book.author %}
                     <dd><a href="/author/{{ author.author_id }}">{{ author.name}}</a></dd>
@@ -38,8 +83,13 @@
                     <dd><a href="/genre/{{ genre.genre_id }}">{{ genre.genre}}</a></dd>
                 {% endfor %}
                 <br>
-                <dd><a href={{ book.url }}><button type="button" class="btn btn-default"><span class="glyphicon glyphicon-download-alt" aria-hidden="true"></span>  DOWNLOAD</button></a></dd>
-            <br><br>
+            {% if 'user_id' in session and shuffled_recs %}
+                <dt>Recommendations:</dt>
+                    {% for book in shuffled_recs[:5] %}
+                        <dd><a href="/book/{{ book.book_id }}"> {{book.title}}</a></dd>
+                    {% endfor %}
+            {% endif %}
+            <br>
             </dl>
             
     </div>

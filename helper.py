@@ -105,9 +105,6 @@ def find_cosine_similarity(train_data_matrix, type='user'):
     return similarity
 
 
-
-
-
 def rmse(prediction, ground_truth):
     """Evaluate accuracy of predicted ratings using Root Mean Squared Error (RMSE)."""
     # NOTE: what is ground truth?

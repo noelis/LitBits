@@ -123,22 +123,30 @@ class User(db.Model):
     def predict_rating(self, book):
         """Predict a user's rating of a book."""
 
+        # print "Book:", book
+
         # Find ratings for specific book.
         other_ratings = book.user_books
+
+        # print "Other ratings:", other_ratings
         # Find the User objects in other_ratings and create a list of User objs
-        other_users = [rating.user for rating in other_ratings]
 
-        # Find similarity between userA and userB. userA = self, userB = 'other_user'
-        similarities = [(self.similarity(other_user), other_user) for other_user in other_users]
+        if other_ratings:
+            other_users = [rating.user for rating in other_ratings]
 
-        similarities.sort(reverse=True)
+            # Find similarity between userA and userB. userA = self, userB = 'other_user'
+            similarities = [(self.similarity(other_user), other_user) for other_user in other_users]
 
-        #Get top user from list and unpack set
-        sim, best_match_user = similarities[0]
+            similarities.sort(reverse=True)
 
-        for book_rating in other_ratings:
-            if book_rating.user_id == best_match_user.user_id:
-                return book_rating.rating * sim
+            #Get top user from list and unpack set
+            sim, best_match_user = similarities[0]
+
+            for book_rating in other_ratings:
+                if book_rating.user_id == best_match_user.user_id:
+                    return book_rating.rating * sim
+        else:
+            return 0.0
 
 
 class UserBook(db.Model):
