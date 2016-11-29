@@ -1,5 +1,5 @@
 .navbar {
-  background-color: #F2EFEF;
+  background-color: #afafbe;
 }
 
 .navbar-default .navbar-brand {
@@ -28,4 +28,12 @@ body {
 
 .container {
   padding-left: 50px;
+}
+
+.thumbnail {
+  border: none;
+}
+
+.img-thumbnail {
+  border: none;
 }
