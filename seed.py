@@ -9,7 +9,6 @@ from goodreads_oauth import initialize_goodreads_session
 
 import xmltodict, requests
 
-
 def load_book_info():
     """Load information to book, author and book_authors tables in db."""
 
